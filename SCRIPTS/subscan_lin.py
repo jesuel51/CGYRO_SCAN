@@ -12,8 +12,12 @@ effnum=root['SETTINGS']['PLOTS']['effnum']
 wkdir=root['SETTINGS']['SETUP']['workDir'] # the local directory(not the remote one)
 dir_list=[]
 #inputs_node_names={'input.cgyro':OMFITnamelist} # input node names (not file name), in a format of dictionary
-inputs_node_names={'input.cgyro':OMFITgaCode,'input.profiles':OMFITgaCode,'input.profiles.geo':OMFITgaCode} # input node names (not file name), in a format of dictionary
-inputs_node=root['INPUTS']             # the father node of input_nodes_name
+#inputs_node_names={'input.cgyro':OMFITgaCode,'input.profiles':OMFITgaCode,'input.profiles.geo':OMFITgaCode} # input node names (not file name), in a format of dictionary
+#inputs_node=root['INPUTS']             # the father node of input_nodes_name
+inputs_node_names={'input.cgyro':OMFITgaCode}
+inputs_node=root['INPUTS']
+if inputs_node['input.cgyro']['PROFILE_MODEL']==2:
+    input_nodes_name={'input.cgyro':OMFITgaCode,'input.profiles':OMFITgaCode,'input.profiles.geo':OMFITgaCode}
 inputs=[]
 
 # for linear run, the following setting should be specified

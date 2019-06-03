@@ -1,0 +1,111 @@
+ &PHYSICS
+ Range = 2 6 10
+ mode = 'lin'
+ Para='SAFETY_FACTOR'
+ case_tag='lincgyro'
+ wr_guess = 
+ wi_guess = 
+ kyarr=0.1           0.2           0.3           0.4           0.5           0.6
+    0.7           0.8           0.9           1.            1.22167735
+    1.49249555    1.823348      2.22754295    2.72133877    3.32459793
+    4.06158599    4.9619476     6.06189899    7.40568469    9.04735724
+   11.05295141   13.50314038   16.49648074   20.15337686   24.62092401
+   30.07882518   36.74661941   44.89251258   54.84416576   67.00187504
+   81.85467307  100.
+ time_scheme= 1 0.01 100
+ &2d
+ Para_x = 'Q'
+ Para_y = 'S'
+ Range_x = 2 4 6
+ Range_y = 0.4 0.8
+ kyarr = 0.2 1.0
+ time_scheme= 1 0.01 100
+ /
+ /
+ &SETUP
+ server='kuafu'
+ workDir = 
+ executable = 
+ gyro_flag = 'lin'
+ workDir =
+ executable ='cgyro -e . -n 4'
+ num_nodes=2
+ num_cores=24
+ wall_time=24:00:00
+ pbs_queue='batch'
+ reso_para= 3 4 0
+ /
+ &PLOTS
+ idimplt = 0
+ Para='Q'
+ mode = 'lin'
+ Range = 2 6 10
+ iwritelin = 0
+ kyarr=0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+ powky = 0
+ ilogx = 0
+ ilogy = 0
+ effnum = 5
+ ipltExB = 0
+ t_trace = 10 100 200
+ iwrite = 0
+ paraval_eigen = 1.0
+ ky_eigen = 0.3
+ iflwphy = 1
+ cmd = 'cgyro_plot -plot freq'
+ csda = 0 200000.
+ ibelow0= 1 -0.01
+ &2d
+ Para_x = 'SAFETY_FACTOR'
+ Para_y = 'S'
+ para_x_eigen = 4
+ para_y_eigen = 1
+ Range_x = 2 4 6
+ Range_y = 0.4 0.8
+ kyarr = 0.2 1.0
+ iflwphy = 1
+ ilogx = 0
+ ilogy = 0
+ ilogz = 0
+ /
+ &nl
+ &path
+ nr240='/global/project/projectdirs/atom/users/xiang/diiid-176125/jeff/xiang2/ErCase/nfield3/lowerky/fixnegshear/retry/nky24/nr240'
+ nr120='/global/project/projectdirs/atom/users/xiang/diiid-176125/jeff/xiang2/ErCase/nfield3/lowerky/fixnegshear/retry/nky24'
+ /
+ &freq_lin
+ ky = 0.05 0.1 0.15 0.2
+ omega = 1 1 1 1 
+ gamma = 1 1 1 1 
+ /
+ chan='Q_2', 'G_2'
+ field = 1
+ t_ave= 0.4
+ t_trace= 100,200,600
+ case_t_trace = ''
+ /
+ /
+ &EXPERIMENT
+ shot = 
+ time = 
+ device = 
+ shots = 
+ times = 
+ runid = 
+ /
+ &REMOTE_SETUP
+ serverPicker = 'shenma'
+ workDir = '/scratch/xiangjian/OMFIT/runs/CGYRO_Scan/0'
+ server = 'xiangjian@service0'
+ tunnel = ''
+ /
+ &MODULE
+ ID = 'CGYRO_SCAN'
+ edited_by = 'xiangjian'
+ date = '03 Jul 2016  15:34'
+ version = u''
+ contact = '' 'xiangjian@hust.edu.cn'
+ /
+ &DEPENDENCIES
+ linout='/home/jianx/proname/deploy/cgyrorun/lincgyro/cgyro_para_lin_scan.txt'
+ /

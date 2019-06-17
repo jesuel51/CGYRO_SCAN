@@ -31,7 +31,7 @@ effnum=root['SETTINGS']['PLOTS']['effnum']
 input_cgyro=root['INPUTS']['input.cgyro']
 # note that it make no sense that scale the gamma_e in the linear run
 # also, it's recommended that when doing linear calculation ,set the doppler_scale instead of gamma_e to be 0;
-#gamma_e=input_cgyro['GAMMA_E']
+gamma_e=input_cgyro['GAMMA_E']
 #kappa=input_cgyro['KAPPA']
 plots=root['SETTINGS']['PLOTS']
 csda=plots['csda']
@@ -44,7 +44,7 @@ kyarr=root['SETTINGS']['PLOTS']['kyarr']
 para=root['SETTINGS']['PLOTS']['Para']
 Range=root['SETTINGS']['PLOTS']['Range']
 # determine whether plot the ExB shearing rate, the capability of plotting ExB is unvailable at present
-#ipltExB=root['SETTINGS']['PLOTS']['ipltExB']
+ipltExB=root['SETTINGS']['PLOTS']['ipltExB']
 #gammae_eff = 0.3*sqrt(kappa)*gamma_e
 num_ky=len(kyarr)
 #nRange=len(root['INPUTS']['TGYRO']['input.tgyro']['DIR'])
@@ -54,20 +54,28 @@ err_w_arr=zeros([nRange,num_ky])     # error in dominate mode frequency
 gamma_arr=zeros([nRange,num_ky]) # dominate mode growth rate
 err_gamma_arr=zeros([nRange,num_ky]) # error in dominate mode growth rate
 ibelow0=root['SETTINGS']['PLOTS']['ibelow0']
+idebug=0 # 0: output the meanless default when encouter error; 1: stop and raise the error up 
 # all the information about frequency and growth rate can be get
 for k in range(0,nRange):
     count2=0
 #    print(str(Range[k]))
     for item in kyarr:
-        try:
+        if idebug==0:
+            try:
+                filename=root['OUTPUTScan'][para][str(Range[k])[0:effnum]]['lin'][str(item)[0:effnum]]['out.cgyro.freq'].filename
+                w,err_w=readfile(filename)
+                if ibelow0[0]==1:
+                    if w[1]<ibelow0[1]:
+                        w[1]=ibelow0[1]
+            except:
+                w=array([0,0])
+                err_w=array([1,1])
+        else:
             filename=root['OUTPUTScan'][para][str(Range[k])[0:effnum]]['lin'][str(item)[0:effnum]]['out.cgyro.freq'].filename
             w,err_w=readfile(filename)
             if ibelow0[0]==1:
-                if w[1]<ibelow[1]:
-                    w[1]=ibelow[1]
-        except:
-            w=array([0,0])
-            err_w=array([1,1])
+                if w[1]<ibelow0[1]:
+                    w[1]=ibelow0[1]
         w_arr[k][count2]=w[0]
         gamma_arr[k][count2]=w[1]
         err_w_arr[k][count2]=err_w[0]
@@ -111,10 +119,10 @@ if idimplt==0:
             plot(kyarr,gamma_arr[k]/kyarr**powky,lab[k],linewidth=lw+1)
         else:
             semilogx(kyarr,gamma_arr[k]/kyarr**powky,lab[k],linewidth=lw+1,label=str(Range[k])[0:effnum])
-    plot(array([min(kyarr),max(kyarr)]),array([0,0]),'--r',linewidth=lw)
-    plot(array([min(kyarr),max(kyarr)]),array([0.05,0.05]),'--r',linewidth=lw)
-#    if ipltExB == 1:
-#        plot(array([min(kyarr),max(kyarr)]),array([gammae_eff,gammae_eff]),'--m',linewidth=lw,label='$\gamma_E$')
+    plot(array([min(kyarr),max(kyarr)]),array([0,0]),'--k',linewidth=lw)
+#    plot(array([min(kyarr),max(kyarr)]),array([0.05,0.05]),'--r',linewidth=lw)
+    if ipltExB == 1:
+        plot(array([min(kyarr),max(kyarr)]),array([gamma_e,gamma_e]),'--m',linewidth=lw,label='$\gamma_{ExB}$')
     #legend(loc=1,fontsize=fs2).draggable(True)
     xticks(fontsize=fs2)
     yticks(fontsize=fs2)

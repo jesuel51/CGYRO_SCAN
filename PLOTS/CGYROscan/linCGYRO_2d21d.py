@@ -29,6 +29,7 @@ def readfile(filename):
 # then read all the data
 effnum=root['SETTINGS']['PLOTS']['effnum']
 input_cgyro=root['INPUTS']['input.cgyro']
+gamma_e=input_cgyro['GAMMA_E']
 # note that it make no sense that scale the gamma_e in the linear run
 plots=root['SETTINGS']['PLOTS']['2d']
 physics=root['SETTINGS']['PLOTS']['2d']
@@ -49,7 +50,7 @@ ilogy=plt2d['ilogy']
 ilogz=plt2d['ilogz']
 Range_y=plots['Range_y']
 # determine whether plot the ExB shearing rate, the capability of plotting ExB is unvailable at present
-#ipltExB=root['SETTINGS']['PLOTS']['ipltExB']
+ipltExB=root['SETTINGS']['PLOTS']['ipltExB']
 #gammae_eff = 0.3*sqrt(kappa)*gamma_e
 num_ky=len(kyarr)
 #nRange=len(root['INPUTS']['TGYRO']['input.tgyro']['DIR'])
@@ -150,6 +151,8 @@ for k in range(nky):
             for val_y in Range_y:
                 semilogy(Range_x, gamma_arr.T[k][count],pltlab[count],label=str(val_y),linewidth=lw)
                 count=count+1
+        if ipltExB==1:
+            plot(array([Range_x[0],Range_x[-1]]),array([gamma_e,gamma_e]),'--m',linewidth=lw/2.,label='$\gamma_{ExB}$')
         if ilogx==1:
             ax3.set_xscale('log')
         if ilogy==1:
@@ -165,6 +168,8 @@ for k in range(nky):
             for val_x in Range_x:
                 semilogy(Range_y, gamma_arr.T[k].T[count],pltlab[count],label=str(val_x),linewidth=lw)
                 count=count+1
+        if ipltExB==1:
+            plot(array([Range_y[0],Range_y[-1]]),array([gamma_e,gamma_e]),'--m',linewidth=lw/2.,label='$\gamma_{ExB}$')
         if ilogx==1:
             ax3.set_yscale('log')
         if ilogy==1:

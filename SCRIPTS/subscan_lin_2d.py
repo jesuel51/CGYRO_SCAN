@@ -19,7 +19,12 @@ inputs_node=root['INPUTS']
 if inputs_node['input.cgyro']['PROFILE_MODEL']==2:
     input_nodes_name={'input.cgyro':OMFITgaCode,'input.profiles':OMFITgaCode,'input.profiles.geo':OMFITgaCode} 
 inputs=[]
-
+# OK , before doing the scan, we need to keep the original input.cgyro
+inputs_node['input.cgyro_orig']=inputs_node['input.cgyro'].duplicate()
+# Gamma_E need to be set to 0 in the linear run
+inputs_node['input.cgyro']['GAMMA_E']=0
+if inputs_node['input.cgyro']['PROFILE_MODEL']==2:
+    inputs_node['input.cgyro']['GAMMA_E_SCALE']=0.
 # the outputs needs to be updated due to the update of CGYRO
 base_loadOutputs={'bin.cgyro.aparb':OMFITgaCode,'bin.cgyro.phib':OMFITgaCode,'bin.cgyro.bparb':OMFITgaCode,\
                   'bin.cgyro.geo':OMFITgaCode,'bin.cgyro.kxky_phi':OMFITgaCode,'bin.cgyro.ky_flux':OMFITgaCode,\
@@ -198,3 +203,6 @@ for item in caseRoot[caseName]:
     if isinstance(caseRoot[caseName][item],dict) and caseRoot[caseName][item].has_key('zip'):
         del caseRoot[caseName][item]['zip']
 del caseRoot[caseName]['scan.pbs']
+# recover the original input.cgyro
+inputs_node['input.cgyro']=inputs_node['input.cgyro_orig'].duplicate()
+del inputs_node['input.cgyro_orig']

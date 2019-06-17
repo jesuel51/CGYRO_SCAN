@@ -46,7 +46,7 @@
  ilogx = 0
  ilogy = 0
  effnum = 5
- ipltExB = 0
+ ipltExB = 1
  t_trace = 10 100 200
  iwrite = 0
  paraval_eigen = 1.0
@@ -107,5 +107,5 @@
  contact = '' 'xiangjian@hust.edu.cn'
  /
  &DEPENDENCIES
- linout='/home/jianx/proname/deploy/cgyrorun/lincgyro/cgyro_para_lin_scan.txt'
+ linout='/home/task1/xiangjian/pro2txt/tmp.txt'
  /
